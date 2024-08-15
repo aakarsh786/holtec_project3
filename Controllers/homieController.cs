@@ -255,11 +255,12 @@ namespace holtec_project3.Controllers
             return RedirectToAction("Alljobs");
         }
 
-        public IActionResult ApplicantView()
+        public IActionResult ApplicantView(int jobId)
         {
             var applicantsWithJobs = from applicant in db.Applicants
                                      join job in db.Jobs on applicant.JobId equals job.JobId
-                                     join user in db.Alluserdata on applicant.Userid equals user.Userid 
+                                     join user in db.Alluserdata on applicant.Userid equals user.Userid
+                                     where job.JobId == jobId
                                      select new ApplicantJobViewModel
                                      {
                                          Applicant = applicant,
