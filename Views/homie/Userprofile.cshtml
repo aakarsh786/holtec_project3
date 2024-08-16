@@ -339,7 +339,7 @@
                 <div class="stats">
                     <div class="stat-box">
                         <i class="fas fa-file-alt fa-2x mb-2"></i>
-                        <span>8</span>
+                        <span>@ViewBag.JobsAppliedCount</span>
                         <p>Total Applied</p>
                     </div>
                     <div class="stat-box">
@@ -355,16 +355,16 @@
                             <img src="../Images/BLACKLOGO.png" id="logo_b" alt="Company Logo">
                             <div>
                                 <div class="job-badges">
-                                    <span class="badge full-time">FULL TIME</span>
-                                    <span class="badge featured">FEATURED</span>
+                                    <span class="badge full-time">@ViewBag.JobType</span>
+                                    @*<span class="badge featured">FEATURED</span>*@
                                 </div>
-                                <h4>Creative Experience Chefs</h4>
-                                <p>GreenTech Innovations</p>
+                                <h4>@ViewBag.JobTitle</h4>
+                                <p>Holtec Asia</p>
                             </div>
                         </div>
-                        <p><i class="fas fa-map-marker-alt"></i> West Virginia</p>
-                        <p><i class="fas fa-money-bill-wave"></i> $1.1k - $2k</p>
-                        <p><i class="fas fa-briefcase"></i> Experience: 1 Year</p>
+                        <p><i class="fas fa-map-marker-alt"></i>@ViewBag.JobLocation</p>
+                        <p><i class="fas fa-money-bill-wave"></i>@ViewBag.JobSalary</p>
+                        <p><i class="fas fa-briefcase"></i> Experience: @ViewBag.JobExperience</p>
                         <div class="job-tags">
                             <span class="tag">Flavor Pairing</span>
                             <span class="tag">Cultural Fusion</span>

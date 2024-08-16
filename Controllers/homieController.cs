@@ -106,7 +106,7 @@ namespace holtec_project3.Controllers
                 
 
 
-                // Create the user's claims
+                
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.Username),   
@@ -122,7 +122,7 @@ namespace holtec_project3.Controllers
                     IsPersistent = false, 
                 };
 
-                // Sign in the user
+                
                 HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties).GetAwaiter().GetResult();
 
                 //return RedirectToAction("Userprofile");
@@ -130,7 +130,7 @@ namespace holtec_project3.Controllers
             }
             else
             {
-                // If the login fails, show an error message
+             
                 ModelState.AddModelError(string.Empty, "Invalid username or password.");
                 return View();
             }
@@ -139,6 +139,38 @@ namespace holtec_project3.Controllers
         
         public IActionResult Userprofile()
         {
+            var userIdClaim = User.FindFirst("UserId")?.Value;
+            if (string.IsNullOrEmpty(userIdClaim))
+            {
+                return Unauthorized(); // The user is not authenticated
+            }
+
+            int userId = int.Parse(userIdClaim);
+
+            
+            int jobsAppliedCount = db.Applicants.Count(a => a.Userid == userId);
+
+            
+            ViewBag.JobsAppliedCount = jobsAppliedCount;
+
+            var recentJobApplied = (from applicant in db.Applicants
+                                    join job in db.Jobs on applicant.JobId equals job.JobId
+                                    where applicant.Userid == userId
+                                    orderby applicant.ApplicantId descending 
+                                    select job).FirstOrDefault();
+
+            if (recentJobApplied != null)
+            {
+                ViewBag.JobTitle = recentJobApplied.JobTitle;
+                
+                ViewBag.JobLocation = recentJobApplied.Location;
+                ViewBag.JobSalary = recentJobApplied.Salary;
+                ViewBag.JobExperience = recentJobApplied.Experience;
+                ViewBag.JobType = recentJobApplied.Jobtype;
+            }
+
+
+
             ViewBag.Fullname = TempData.Peek("fullname")?.ToString();
             ViewBag.naam = TempData.Peek("naam")?.ToString();
             ViewBag.email = TempData.Peek("email")?.ToString();
